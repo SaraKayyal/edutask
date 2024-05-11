@@ -39,7 +39,7 @@ class TestUserController:
     ## No user match th email
     @pytest.mark.unit
     def test_get_user_no_match(self):
-        self.mock_dao.find.return_value = []
+        self.mock_dao.find.return_value = [None]
         result = self.user_controller.get_user_by_email('user@example.com')
         assert result is None
 
