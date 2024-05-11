@@ -9,7 +9,7 @@ on:
 
 defaults:
   run:
-    working-directory: ./backend/test
+    working-directory: ./backend/test/unit
 
 jobs:
   test:
