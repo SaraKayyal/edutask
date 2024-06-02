@@ -118,7 +118,7 @@ def test_create_with_invalid_data_and_type_errors(dao):
 def test_valid_data_not_unique_type_mismatch(dao):
     # Insert with valid data
     valid_user = {"firstName": "Nisreen", "lastName": "Adb", "age": 11, "email": "nisreen@example.com"}
-    result = dao.create(valid_user)
+    dao.create(valid_user)
 
     # Trying to insert another record with non-matching BSON types and no-unique email
     invalid_user = {"firstName": "Nisreen", "lastName": "Adb", "age": "eleven", "email": 123}
