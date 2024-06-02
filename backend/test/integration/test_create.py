@@ -134,3 +134,12 @@ def test_invalid_not_unique_data_type_mismatch(dao):
     invalid_user = {"firstName": 123, "lastName": "ka", "age": "thirteen","email": "sara@example.com"}
     with pytest.raises(pymongo.errors.WriteError) as exc_info:
         dao.create(invalid_user)
+
+# Test not valid data, matches BSON and not unqiue. 
+def test_non_unique_email_with_valid_bson_raises_error(dao):
+    valid_user = {"firstName": "John", "lastName": "Doe", "age": 30, "email": "email@example.com"}
+    dao.create(valid_user)
+
+    invalid_user = {"firstName": "Jane", "lastName": "Doe", "age": -1, "email": "email@example.com"}
+    with pytest.raises(pymongo.errors.WriteError):
+        dao.create(invalid_user)
