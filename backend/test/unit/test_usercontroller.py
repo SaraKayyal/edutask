@@ -23,9 +23,9 @@ class TestUserController:
         result = self.user_controller.get_user_by_email('user@example.com')
         assert result == {'id': 1, 'email': 'user@example.com'}
 
-    ## If there is multiple users *
+    ## If there is multiple users a log will be displayed
     @pytest.mark.unit
-    def test_get_user_by_multiple_users(self, capsys):
+    def test_log_warning_for_multiple_users(self, capsys):
         self.mock_dao.find.return_value = [{'id': 1, 'email': 'user@example.com'}, {'id': 2, 'email': 'user@example.com'}]
         self.user_controller.get_user_by_email('user@example.com')
 
@@ -34,8 +34,17 @@ class TestUserController:
 
         expected_output = 'Error: more than one user found with mail user@example.com'
         assert expected_output in captured.out
-       
 
+    ## When multiple users are found the func should return the first user object.
+    @pytest.mark.unit
+    def test_return_first_user_for_multiple_users(self):
+        self.mock_dao.find.return_value = [{'id': 1, 'email': 'user@example.com'}, {'id': 2, 'email': 'user@example.com'}]
+        
+        result = self.user_controller.get_user_by_email('user@example.com')
+        
+        #Check that the first user object is returned
+        assert result == {'id': 1, 'email': 'user@example.com'}
+       
     ## No user match th email
     @pytest.mark.unit
     def test_get_user_no_match(self):
